@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+import { Sequelize, DataTypes, Model } from 'sequelize';
 
 const sequelize = new Sequelize('menu', 'root', 'root', {
     host: 'localhost',
@@ -48,6 +48,6 @@ Product.init({
     modelName: "Product",
 });
 
-module.exports = Product;
+export {Product}
 
 

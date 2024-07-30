@@ -1,8 +1,8 @@
-const express = require('express');
+import express from "express";
 
-const router = require("../routes/router");
+import router from "../routes/router.mjs";
 
-const cors = require('cors')
+import cors from 'cors'
 
 const app = express()
 
@@ -19,6 +19,5 @@ app.use(cors())
 
 app.use("/api/v1", router)
 
+export {app}
 
-
-module.exports = app
