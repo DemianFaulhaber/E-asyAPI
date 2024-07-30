@@ -1,39 +1,45 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 
 const sequelize = new Sequelize('menu', 'root', 'root', {
+    define:{
+        timestamps:false,
+    },
     host: 'localhost',
     dialect: 'mysql',
     port:'3306',
     timezone:'-3:00',
 })
 
-class Product extends Model {}
+class User extends Model {}
 
-//Product Table model
-Product.init({
-    product_id:{
+//Product Table model, add here more models if needed
+User.init({
+    user_id:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },
-    product_name:{
+    user_name:{
         type: DataTypes.STRING,
         allowNull: false,
     },
-    product_price:{
-        type: DataTypes.FLOAT(10,2),
+    user_password:{
+        type: DataTypes.STRING,
         allowNull: false,
     },
-    product_category:{
-        type: DataTypes.STRING,
-        allowNull:false,
-        defaultValue: "Uncategorized" 
+    user_email:{
+        type: DataTypes.STRING, 
+        alowNull:false
+    },
+    is_premium:{
+        type: DataTypes.BOOLEAN,
+        alowNull: true
     }
 }, {
     sequelize,
-    modelName: "Product",
+    modelName: "User",
 });
 
-export {Product}
+export {User}
 
 
