@@ -1,23 +1,23 @@
 import express from "express";
 
-import router from "../routes/router.mjs";
+import routerApi from "../routes/index.mjs";
 
 import cors from 'cors'
 
 const app = express()
 
-
-
 app.get("/", (req,res) => {
     res.send("running on express")
 })
+
+import "../utils/auth/index.mjs"
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 app.use(cors())
 
-app.use("/api/v1", router)
+routerApi(app)
 
 export {app}
 

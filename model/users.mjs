@@ -31,9 +31,10 @@ User.init({
         type: DataTypes.STRING, 
         alowNull:false
     },
-    is_premium:{
-        type: DataTypes.BOOLEAN,
-        alowNull: true
+    role:{
+        type: DataTypes.STRING,
+        alowNull: false,
+        defaultValue: "customer",
     }
 }, {
     sequelize,
