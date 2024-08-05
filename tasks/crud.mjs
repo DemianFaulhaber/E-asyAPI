@@ -6,10 +6,12 @@ const Op = _Op;
 //faker create REMOVE FROM PRODUCTION
 async function fakeCreate(req, res){
     await Product.sync()
+    const user = req.user
     const createProduct = await Product.create({
         product_name: faker.commerce.product(),
         product_category: faker.commerce.department(),
         product_price: faker.commerce.price(),
+        user_id:user.sub
     })
     res.status(201).json({
         ok:true,
@@ -36,7 +38,10 @@ async function create(req, res){
 
 //Read table products (same as the other function)
 async function read(req, res){
-    const products = await Product.findAll()
+    const user = req.user
+    const products = await Product.findAll({
+        where:{user_id:user.sub}
+    })
     res.status(200).json({
         ok:true,
         status:200,

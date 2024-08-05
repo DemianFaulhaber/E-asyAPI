@@ -28,6 +28,10 @@ Product.init({
         type: DataTypes.STRING,
         allowNull:false,
         defaultValue: "Uncategorized" 
+    },
+    user_id:{
+        type: DataTypes.UUID,
+        allowNull:false,
     }
 }, {
     sequelize,

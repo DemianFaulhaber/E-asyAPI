@@ -30,6 +30,7 @@ async function create(req, res){
             user_name: body.name,
             user_password: password,
             user_email: body.email,
+            role: body.role
         })
         res.status(201).json({
             ok:true,
