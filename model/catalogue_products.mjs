@@ -7,10 +7,10 @@ const sequelize = new Sequelize('menu', 'root', 'root', {
     timezone:'-3:00',
 })
 
-class Product extends Model {}
+class Catalogue_product extends Model {}
 
 //Product Table model
-Product.init({
+Catalogue_product.init({
     product_id:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -32,12 +32,20 @@ Product.init({
     user_id:{
         type: DataTypes.UUID,
         allowNull:false,
+    },
+    isOff:{
+        type: DataTypes.INTEGER,
+        allowNull:false
+    },
+    isNew:{
+        type: DataTypes.BOOLEAN,
+        allowNull:false
     }
 }, {
     sequelize,
-    modelName: "Product",
+    modelName: "Catalogue_product",
 });
 
-export {Product}
+export {Catalogue_product}
 
 

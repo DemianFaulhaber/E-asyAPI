@@ -1,11 +1,11 @@
 import * as XLSX from "xlsx"
-import {Product} from "../model/products.mjs"
+import { Menu_product } from "../model/menu_products.mjs";
 
 
 async function exportExcell(req, res){
     try {
         // Obtener todos los productos con sus categorías
-        const data = await Product.findAll();
+        const data = await Menu_product.findAll();
         
         // Crear un objeto para almacenar productos por categoría
         const categories = {};

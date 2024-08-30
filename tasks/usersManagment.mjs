@@ -19,11 +19,11 @@ async function findByName(name){
 
 async function create(req, res){
     await User.sync()
-    const body = req.body
+    const body = await req.body
     const password = await bcrypt.hash(body.password, 10)
     let user = await findByName(body.name)
     if(!user){
-        user = await findByEmail(body.name)
+        user = await findByEmail(body.email)
     }
     if(!user){
         const createUser = await User.create({
@@ -38,7 +38,7 @@ async function create(req, res){
             message:"Created User"
         })
     }
-    else{
+    if(user){
         res.status(201).json({
             ok:true,
             status:201,
@@ -46,6 +46,21 @@ async function create(req, res){
         })
     }
 }
+
+async function checkUser(req,res){
+    const name = req.body.name
+    try {
+        const rta = await User.findOne({
+            where:{ user_name:name}
+        })
+        if(rta != null){
+            res.json({isAvailable:true})
+        }
+    } catch (error){
+        res.json(error)
+    }
+}
+
 // async function update(req, res){
 //     const body = req.body
 //     await Product.sync()
@@ -85,4 +100,4 @@ async function create(req, res){
 // }
 
 
-export {create, findByEmail, findByName}
+export {create, findByEmail, findByName, checkUser}

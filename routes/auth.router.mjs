@@ -1,6 +1,6 @@
 import express from "express"
 import passport from "passport";
-import { create } from "../tasks/usersManagment.mjs";
+import { checkUser, create, findByName } from "../tasks/usersManagment.mjs";
 import jwt from "jsonwebtoken"
 import { config } from "../config.mjs";
 
@@ -13,13 +13,21 @@ router.post('/login', passport.authenticate('local', {session:false}), async(req
         const user = req.user
         const payload={
             sub:user.user_id,
-            role:user.role
+            role:user.role,
+            name:user.user_name
         }
         const token = jwt.sign(payload, config.jwtSecret)
-        res.json({
-            user,
-            token
+        res.header('Access-Control-Allow-Credentials', 'true');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+        res.cookie("jwt",token,{
+            sameSite: 'None',
+            httpOnly:false,
+            domain:"localhost",
+            path:"/",
+            secure:true,
+            maxAge:3600000
         })
+        res.json(token)
     } catch (error) {
         next(error);
     }
@@ -27,6 +35,6 @@ router.post('/login', passport.authenticate('local', {session:false}), async(req
 
 router.post('/register', create)
 
-
+router.post('/check', checkUser)
 
 export default router;
