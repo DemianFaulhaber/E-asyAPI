@@ -1,5 +1,5 @@
 import { Strategy } from "passport-local";
-import * as usersManagment from "../../../tasks/usersManagment.mjs";
+import * as usersManagment from "../../../tasks/usersManagment.js";
 import boom  from "@hapi/boom";
 import bcrypt from "bcrypt"
 

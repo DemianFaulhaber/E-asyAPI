@@ -1,5 +1,5 @@
-import { Menu_product } from "../model/menu_products.mjs";
-import { Catalogue_product } from "../model/catalogue_products.mjs";
+import { Menu_product } from "../model/menu_products.js";
+import { Catalogue_product } from "../model/catalogue_products.js";
 import { Op as _Op } from "sequelize";
 import { faker } from "@faker-js/faker";
 import multer from "multer";
@@ -110,24 +110,23 @@ async function readAll(req, res){
     const table = req.body.table
     // const user = req.user
     try {
-        let products = {};
         if(table==="menu"){
-            products = await Menu_product.findAll()
+            const products = await Menu_product.findAll()
             res.status(200).json({
                 ok:true,
                 status:200,
                 body: products
             })
         }
-        if(table==="catalogue"){
-            products = await Catalogue_product.findAll()
+        else if(table==="catalogue"){
+            const products = await Catalogue_product.findAll()
             res.status(200).json({
                 ok:true,
                 status:200,
                 body: products
             })
         }
-        else(res.status(400).json({messagge:"sin tabla"}))
+        else{res.status(400).json({messagge:"sin tabla"})}
     } catch (error) {
         res.json(error)
     }

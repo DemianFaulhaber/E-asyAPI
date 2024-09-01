@@ -1,8 +1,8 @@
 import express from "express"
 import passport from "passport";
-import { checkUser, create, findByName } from "../tasks/usersManagment.mjs";
+import { checkUser, create, findByName } from "../tasks/usersManagment.js";
 import jwt from "jsonwebtoken"
-import { config } from "../config.mjs";
+import { config } from "../config.js";
 
 const router = express.Router()
 

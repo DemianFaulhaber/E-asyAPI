@@ -1,5 +1,5 @@
 import { Strategy, ExtractJwt } from "passport-jwt";
-import { config } from "../../../config.mjs";
+import { config } from "../../../config.js";
 
 
 const options = {

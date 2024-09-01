@@ -1,10 +1,10 @@
 import express from "express"
-import { exportExcell } from "../tasks/excellFilesManagment.mjs";
-import { checkRole } from "../middleware/auth.handler.mjs";
+import { exportExcell } from "../tasks/excellFilesManagment.js";
+import { checkRole } from "../middleware/auth.handler.js";
 import passport from "passport";
 import multer from "multer";
 import sharp from "sharp";
-import * as crud from "../tasks/crud.mjs"
+import * as crud from "../tasks/crud.js"
 
 const storage = multer.diskStorage({
     destination:function(req,file,cb){
@@ -28,7 +28,7 @@ router.post("/create", passport.authenticate('jwt', {session:false}), checkRole(
 //BORRAR VERIFICACIÓN DE JWT PARA PRODUCCIÓN (usar .env basado en subdominio)
 router.get("/read", passport.authenticate('jwt', {session:false}),checkRole('admin','customer'), crud.read);
 
-router.post("/update", media.single('image') ,crud.update);
+router.post("/update", media.single('image'), crud.update);
 
 router.post("/readAll", crud.readAll);
 

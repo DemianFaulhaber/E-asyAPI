@@ -1,6 +1,6 @@
 import express from "express";
-
-import routerApi from "../routes/index.mjs";
+import morgan from "morgan";
+import routerApi from "../routes/index.js";
 
 import cors from 'cors'
 
@@ -16,7 +16,7 @@ app.get("/", (req,res) => {
 
 import "../utils/auth/index.mjs"
 
-
+app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))

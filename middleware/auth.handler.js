@@ -1,5 +1,5 @@
 import boom from "@hapi/boom"
-import { config } from "./../config.mjs"
+import { config } from "../config.js"
 
 function checkApiKey(req,res,next){
     const apikey = req.headers['api']

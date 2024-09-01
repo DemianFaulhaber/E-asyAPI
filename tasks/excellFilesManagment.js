@@ -1,5 +1,5 @@
 import * as XLSX from "xlsx"
-import { Menu_product } from "../model/menu_products.mjs";
+import { Menu_product } from "../model/menu_products.js";
 
 
 async function exportExcell(req, res){

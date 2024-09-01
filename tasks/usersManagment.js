@@ -1,4 +1,4 @@
-import { User } from "../model/users.mjs";
+import { User } from "../model/users.js";
 import { Op as _Op, or } from "sequelize";
 import bcrypt from "bcrypt"
 const Op = _Op;
