@@ -90,18 +90,36 @@ async function create(req, res){
 
 //Read table products (erase the bypass, it should be able to be seen for everyone)
 async function read(req, res){
-    const user = req.user
-    try {
-        const products = await Menu_product.findAll({
-            where:{user_id:user.sub}
-        })
-        res.status(200).json({
-            ok:true,
-            status:200,
-            body: products
-        })
-    } catch (error) {
-        res.json(error)
+    const body = req.body
+    if(body.table === "menu"){
+        try {
+            const products = await Menu_product.findAll({
+                where:{user_id:body.user}
+            })
+            res.status(200).json({
+                ok:true,
+                status:200,
+                body: products
+            })
+        } catch (error) {
+            console.error(error)
+            res.status(500).json(error)
+        }
+    }
+    else if(body.table === "catalogue"){
+        try {
+            const products = await Catalogue_product.findAll({
+                where:{user_id:body.user}
+            })
+            res.status(200).json({
+                ok:true,
+                status:200,
+                body: products
+            })
+        } catch (error) {
+            console.error(error)
+            res.status(500).json(error)
+        }
     }
 }
 

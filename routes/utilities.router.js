@@ -26,7 +26,7 @@ router.post("/fakeCreate", passport.authenticate('jwt', {session:false}), checkR
 router.post("/create", passport.authenticate('jwt', {session:false}), checkRole('admin'), crud.create);
 
 //BORRAR VERIFICACIÓN DE JWT PARA PRODUCCIÓN (usar .env basado en subdominio)
-router.get("/read", passport.authenticate('jwt', {session:false}),checkRole('admin','customer'), crud.read);
+router.post("/read", crud.read);
 
 router.post("/update", media.single('image'), crud.update);
 
@@ -35,6 +35,6 @@ router.post("/readAll", crud.readAll);
 router.post("/delete", passport.authenticate('jwt', {session:false}), checkRole('admin'), crud.erase);
 
 //BORRAR VERIFICACIÓN DE JWT PARA PRODUCCIÓN (usar .env basado en subdominio)
-router.get("/exp", passport.authenticate('jwt', {session:false}),checkRole('admin','customer'), exportExcell);
+router.get("/exp", exportExcell);
 
 export default router;

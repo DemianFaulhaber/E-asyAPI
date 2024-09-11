@@ -18,7 +18,7 @@ router.post('/login', passport.authenticate('local', {session:false}), async(req
         }
         const token = jwt.sign(payload, config.jwtSecret)
         res.header('Access-Control-Allow-Credentials', 'true');
-        res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+        // res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
         res.cookie("jwt",token,{
             sameSite: 'None',
             httpOnly:false,
@@ -29,7 +29,7 @@ router.post('/login', passport.authenticate('local', {session:false}), async(req
         })
         res.json(token)
     } catch (error) {
-        next(error);
+        res.json(error);
     }
 } )
 

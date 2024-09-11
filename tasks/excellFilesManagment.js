@@ -31,15 +31,16 @@ async function exportExcell(req, res){
         for (const [category, products] of Object.entries(categories)) {
             const heading = [["código","Nombre", "Precio", "fecha de creación", "ultima actualización"]];
             const worksheet = XLSX.utils.json_to_sheet(products);
-            XLSX.utils.sheet_add_aoa(worksheet, heading);
+            XLSX.utils.sheet_add_aoa(worksheet, heading, {origin: "A1"});
             XLSX.utils.book_append_sheet(workbook, worksheet, category);
         }
 
         // Generar el buffer del archivo Excel
         const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
-
+        
         // Configurar la respuesta para descargar el archivo Excel
-        res.attachment('menú.xlsx');
+        res.setHeader('Content-Disposition', 'attachment; filename="menu.xlsx"');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.send(buffer);
     } catch (error) {
         console.error(error);
