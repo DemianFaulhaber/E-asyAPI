@@ -40,6 +40,11 @@ Catalogue_product.init({
     isNew:{
         type: DataTypes.BOOLEAN,
         allowNull:false
+    },
+    product_desc:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "sin descripción"
     }
 }, {
     sequelize,

@@ -34,6 +34,11 @@ Menu_product.init({
     user_id:{
         type: DataTypes.UUID,
         allowNull:false,
+    },
+    product_desc:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "sin descripción"
     }
 }, {
     sequelize,

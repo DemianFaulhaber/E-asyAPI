@@ -179,7 +179,7 @@ async function update(req, res){
             res.json(error)
         }
     }
-    if(table==="catalogue"){
+    else if(table==="catalogue"){
         await Catalogue_product.sync()
         try {
             const updateProducts = await Catalogue_product.update({

@@ -1,11 +1,19 @@
 import * as XLSX from "xlsx"
 import { Menu_product } from "../model/menu_products.js";
+import { Catalogue_product } from "../model/catalogue_products.js";
 
 
-async function exportExcell(req, res){
+async function exportExcellAll(req, res){
+    const table = req.body.table
+    let data = [];
+    if(table === "menu"){
+        data = await Menu_product.findAll();
+    }
+    else if (table === "catalogue"){
+        data = await Catalogue_product.findAll()
+    }
     try {
         // Obtener todos los productos con sus categorías
-        const data = await Menu_product.findAll();
         
         // Crear un objeto para almacenar productos por categoría
         const categories = {};
@@ -19,8 +27,6 @@ async function exportExcell(req, res){
                 product_id: row.dataValues.product_id,
                 product_name: row.dataValues.product_name,
                 product_price: row.dataValues.product_price,
-                createdAt: row.dataValues.createdAt,
-                updatedAt: row.dataValues.updatedAt
             });
         });
 
@@ -49,6 +55,55 @@ async function exportExcell(req, res){
 }
 
 
+async function exportExcellCategory(req,res){
+    const table = req.body.table
+    const category = req.body.category
+    const user = req.body.user
+    console.log(user)
+    let data = []
+    if(table === "menu"){
+        data = await Menu_product.findAll({
+            where:{user_id:user}
+        });
+    }
+    else if (table === "catalogue"){
+        data = await Catalogue_product.findAll({
+            where:{user_id:user}
+        })
+    }
+    try {
+        const products = []
+        data.forEach(e=>{
+            if(e.dataValues.product_category === category){
+                products.push({
+                    product_id: e.dataValues.product_id,
+                    product_name: e.dataValues.product_name,
+                    product_price: e.dataValues.product_price,
+                    product_desc: e.dataValues.product_desc
+                })
+            }
+        })
+
+        const workbook = XLSX.utils.book_new();
+
+        const heading = [["código","Nombre", "Precio", "descripción"]];
+        const worksheet = XLSX.utils.json_to_sheet(products);
+        XLSX.utils.sheet_add_aoa(worksheet, heading, {origin: "A1"});
+        XLSX.utils.book_append_sheet(workbook, worksheet, category);
+        
+
+        const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+        
+        // Configurar la respuesta para descargar el archivo Excel
+        res.setHeader('Content-Disposition', `attachment; filename="${category}.xlsx"`);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.send(buffer);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al exportar los datos');
+    }
+}
 
 
-export {exportExcell}
+
+export {exportExcellAll, exportExcellCategory}
