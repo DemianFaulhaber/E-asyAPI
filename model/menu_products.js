@@ -42,7 +42,7 @@ Menu_product.init({
     }
 }, {
     sequelize,
-    modelName: "Menu_product",
+    modelName: "menu_product",
 });
 
 export {Menu_product}
