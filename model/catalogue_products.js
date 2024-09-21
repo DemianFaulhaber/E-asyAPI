@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 
-const sequelize = new Sequelize('menu', 'root', 'root', {
+const sequelize = new Sequelize('menu', 'demian', 'admin', {
     host: 'localhost',
     dialect: 'mysql',
     port:'3306',
