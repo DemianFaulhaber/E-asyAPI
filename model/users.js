@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 
-const sequelize = new Sequelize('menu', 'root', 'root', {
+const sequelize = new Sequelize('Easy', 'demian', 'admin', {
     define:{
         timestamps:false,
     },
