@@ -22,10 +22,10 @@ app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('media'))
 
-const availableCors = ['http://localhost:5173', 'http://localhost:5174','http://localhost:5175']
+// const availableCors = ['http://localhost:5173', 'http://localhost:5174','http://localhost:5175']
 
 const corsOptions = {
-    origin: availableCors, // DEV ONLY MODIFICAR PORFA
+    origin: '*', // DEV ONLY MODIFICAR PORFA
     credentials: true, 
 };
 // const corsOptions = {
