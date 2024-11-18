@@ -18,7 +18,6 @@ router.post('/login', passport.authenticate('local', {session:false}), async(req
         }
         const token = jwt.sign(payload, config.jwtSecret)
         res.header('Access-Control-Allow-Credentials', 'true');
-        // res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
         res.cookie("jwt",token,{
             sameSite: 'None',
             httpOnly:false,

@@ -2,25 +2,31 @@ import express from "express"
 import { exportExcellAll, exportExcellCategory } from "../tasks/excellFilesManagment.js";
 import { checkRole } from "../middleware/auth.handler.js";
 import passport from "passport";
-import multer from "multer";
-import sharp from "sharp";
-import * as crud from "../tasks/crud.js"
-import { media} from "../middleware/file.handler.js";
+import * as product_management from "../tasks/product_management.js"
+import { galleryCreation } from "../middleware/file.handler.js";
 
 
 const router = express.Router()
 
-router.post("/fakeCreate", passport.authenticate('jwt', {session:false}), checkRole('admin'), crud.fakeCreate);
 
-router.post("/create", passport.authenticate('jwt', {session:false}), checkRole('admin'), crud.create);
+//Eliminar de producción (inutil)
+router.post("/fakeCreate", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), product_management.fakeCreate);
 
-router.post("/read", crud.read);
+router.post("/create", passport.authenticate('jwt', {session:false}), checkRole('admin','customer'), product_management.create);
 
-router.post("/update", media.single('image'), crud.update);
+router.post("/createTable", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), product_management.createTable);
 
-router.post("/readAll", crud.readAll);
+router.post("/readUserTables", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), product_management.readUserTables)
 
-router.post("/delete", passport.authenticate('jwt', {session:false}), checkRole('admin'), crud.erase);
+router.post("/read", product_management.read);
+
+router.post("/update", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), galleryCreation, product_management.update);
+
+// router.post("/updateImg", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), galleryCreation, product_management.updateImg);
+//PORFAVOR ELIMINAR PRA PROUDCCIÓN, VULNERABILIDAD
+router.post("/readAll", product_management.readAll);
+
+router.post("/delete", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), product_management.erase);
 
 //BORRAR VERIFICACIÓN DE JWT PARA PRODUCCIÓN (usar .env basado en subdominio)
 router.get("/exp", exportExcellAll);

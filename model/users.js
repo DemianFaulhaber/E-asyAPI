@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
+import { config } from '../config.js';
 
-const sequelize = new Sequelize('Easy', 'demian', 'admin', {
+const sequelize = new Sequelize(config.db_name, config.db_user, config.db_password, {
     define:{
         timestamps:false,
     },

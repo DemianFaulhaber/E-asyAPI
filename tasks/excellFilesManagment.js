@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx"
 import { Menu_product } from "../model/menu_products.js";
-import { Catalogue_product } from "../model/catalogue_products.js";
+import { Catalogue_product } from "../model/catalogue.js";
 
 
 async function exportExcellAll(req, res){
@@ -58,37 +58,42 @@ async function exportExcellAll(req, res){
 async function exportExcellCategory(req,res){
     const table = req.body.table
     const category = req.body.category
-    const user = req.body.user
-    console.log(user)
+    const catalogue = req.body.catalogue
+    console.log(catalogue)
     let data = []
-    if(table === "menu"){
-        data = await Menu_product.findAll({
-            where:{user_id:user}
-        });
+    try{
+        if(table === "menu"){
+            data = await Menu_product.findAll({
+                where:{menu_id:catalogue}
+            });
+        }
+        else if (table === "catalogue"){
+            data = await Catalogue_product.findAll({
+                where:{catalogue_id:catalogue}
+            })
+        }
+        console.log(data);
     }
-    else if (table === "catalogue"){
-        data = await Catalogue_product.findAll({
-            where:{user_id:user}
-        })
+    catch{
+        return res.status(400).send("error al cargar los dato");
     }
     try {
-        const products = []
+        const products = [];
         data.forEach(e=>{
             if(e.dataValues.product_category === category){
-                products.push({
-                    product_id: e.dataValues.product_id,
-                    product_name: e.dataValues.product_name,
-                    product_price: e.dataValues.product_price,
-                    product_desc: e.dataValues.product_desc
-                })
+                products.push([e.dataValues.product_name,e.dataValues.product_price,e.dataValues.product_desc])
             }
         })
 
-        const workbook = XLSX.utils.book_new();
+        if (products.length === 0) {
+            return res.status(404).send('No hay datos para exportar.');
+        }
 
-        const heading = [["código","Nombre", "Precio", "descripción"]];
-        const worksheet = XLSX.utils.json_to_sheet(products);
-        XLSX.utils.sheet_add_aoa(worksheet, heading, {origin: "A1"});
+
+        const workbook = XLSX.utils.book_new();
+        const heading = [["Nombre", "Precio", "descripción"]];
+        const worksheet = XLSX.utils.aoa_to_sheet(heading);
+        XLSX.utils.sheet_add_aoa(worksheet, products, {origin: -1});
         XLSX.utils.book_append_sheet(workbook, worksheet, category);
         
 
