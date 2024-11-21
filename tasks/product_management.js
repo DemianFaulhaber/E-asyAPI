@@ -127,14 +127,18 @@ async function read(req, res){
     }
     else if(body.table === "catalogue"){
         try {
+            const catalogue = await Catalogue_list.findOne({
+                where:{id_catalogue:body.catalogue}
+            })
             const products = await Catalogue_product.findAll({
                 where:{catalogue_id:body.catalogue}
             })
             res.status(200).json({
                 ok:true,
                 status:200,
-                body: products
-            })
+                body: products,
+                catalogue:catalogue
+            });
         } catch (error) {
             console.error(error)
             res.status(500).json(error)
