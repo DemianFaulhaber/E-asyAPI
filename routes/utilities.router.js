@@ -28,7 +28,6 @@ router.post("/readAll", product_management.readAll);
 
 router.post("/delete", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), product_management.erase);
 
-//BORRAR VERIFICACIÓN DE JWT PARA PRODUCCIÓN (usar .env basado en subdominio)
 router.get("/exp", exportExcellAll);
 
 router.post("/catExp", exportExcellCategory)

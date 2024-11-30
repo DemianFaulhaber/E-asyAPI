@@ -7,10 +7,14 @@ async function exportExcellAll(req, res){
     const table = req.body.table
     let data = [];
     if(table === "menu"){
-        data = await Menu_product.findAll();
+        data = await Menu_product.findAll({
+            where:{menu_id:req.body.menu}
+        });
     }
     else if (table === "catalogue"){
-        data = await Catalogue_product.findAll()
+        data = await Catalogue_product.findAll({
+            where:{catalogue_id:req.body.catalogue}
+        })
     }
     try {
         // Obtener todos los productos con sus categorías
@@ -109,6 +113,8 @@ async function exportExcellCategory(req,res){
     }
 }
 
+function importExcellCategory(a,b){
+    return a+b;
+}
 
-
-export {exportExcellAll, exportExcellCategory}
+export {exportExcellAll, exportExcellCategory, importExcellCategory}

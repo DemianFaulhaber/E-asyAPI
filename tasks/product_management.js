@@ -39,6 +39,7 @@ async function fakeCreate(req, res){
 async function create(req, res){
     const table = req.body.table
     const body = req.body
+    console.log(body)
     try {
         if(table === "menu"){
             const createdProduct = await Menu_product.create({
@@ -56,11 +57,12 @@ async function create(req, res){
         else if(table === "catalogue"){
             const createdProduct = await Catalogue_product.create({
                 product_name:body.name,
+                product_desc:body.desc,
                 product_price:body.price,
                 product_category:body.category,
                 catalogue_id:body.catalogue,
-                isOff:body.isOff,
-                isNew:body.isNew
+                // isOff:body.isOff,
+                // isNew:body.isNew
             })
             res.status(201).json({
                 ok:true,
@@ -84,6 +86,7 @@ async function createTable(req,res){
     const user = req.body.user
     const name = req.body.name
     const service = req.body.service
+    console.log(req.body)
     try {
         if(service === "menu"){
             const created_list = await Menu_list.create({
@@ -268,7 +271,7 @@ async function erase(req, res){
             res.status(200).json({
                 ok:true,
                 status:201,
-                messge:"Deleted product"
+                message:"Deleted product"
             })
         } catch (error) {
             res.json(error)
@@ -286,7 +289,7 @@ async function erase(req, res){
             res.status(200).json({
                 ok:true,
                 status:201,
-                messge:"Deleted product"
+                message:"Deleted product"
             })
         } catch (error) {
             res.json(error)
@@ -305,7 +308,7 @@ async function readUserTables(req,res){
                 res.status(200).json({
                     ok:true,
                     status:200,
-                    body:catalogues[0]
+                    body:catalogues
                 })
             }
             else{

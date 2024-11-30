@@ -1,15 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import { config } from '../config.js';
+import dbConfig from './config.db.js';
 
-
-const sequelize = new Sequelize(config.db_name, config.db_user, config.db_password, {
-    host: 'localhost',
-    dialect: 'mysql',
-    port:'3306',
-    timezone:'-3:00',
-})
-
-
+const sequelize = dbConfig
 
 class Menu_product extends Model {}
 class Menu_list extends Model {}

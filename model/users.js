@@ -1,15 +1,7 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
-import { config } from '../config.js';
+import {DataTypes, Model } from 'sequelize';
+import dbConfig from './config.db.js';
 
-const sequelize = new Sequelize(config.db_name, config.db_user, config.db_password, {
-    define:{
-        timestamps:false,
-    },
-    host: 'localhost',
-    dialect: 'mysql',
-    port:'3306',
-    timezone:'-3:00',
-})
+const sequelize=dbConfig;
 
 class User extends Model {}
 
@@ -19,6 +11,7 @@ User.init({
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+        timestamps:false
     },
     user_name:{
         type: DataTypes.STRING,
@@ -40,6 +33,7 @@ User.init({
 }, {
     sequelize,
     modelName: "User",
+    timestamps:false
 });
 
 export {User}

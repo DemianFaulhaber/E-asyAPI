@@ -1,12 +1,7 @@
 import { Sequelize, DataTypes, Model, UUID } from 'sequelize';
-import { config } from '../config.js';
+import dbConfig from './config.db.js';
 
-const sequelize = new Sequelize(config.db_name, config.db_user, config.db_password, {
-    host: 'localhost',
-    dialect: 'mysql',
-    port:'3306',
-    timezone:'-3:00',
-})
+const sequelize = dbConfig
 
 class Catalogue_product extends Model {}
 class Catalogue_list extends Model {}
@@ -36,11 +31,13 @@ Catalogue_product.init({
     },
     isOff:{
         type: DataTypes.INTEGER,
-        allowNull:false
+        allowNull:false,
+        defaultValue:0
     },
     isNew:{
         type: DataTypes.BOOLEAN,
-        allowNull:false
+        allowNull:false,
+        defaultValue:0
     },
     product_desc:{
         type: DataTypes.STRING,

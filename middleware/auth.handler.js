@@ -3,7 +3,7 @@ import { config } from "../config.js"
 
 function checkApiKey(req,res,next){
     const apikey = req.headers['api']
-    if(apikey === config.apiKey){
+    if(apikey === config.API_KEY){
         next()
     }
     else{
