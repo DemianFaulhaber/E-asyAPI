@@ -20,8 +20,8 @@ router.post('/login', passport.authenticate('local', {session:false}), async(req
         res.header('Access-Control-Allow-Credentials', 'true');
         res.cookie("jwt",token,{
             sameSite: 'None',
-            httpOnly:false,
-            domain:"localhost",
+            httpOnly:true,
+            domain:config.COOKIE_DOMAIN,
             path:"/",
             secure:true,
             maxAge:3600000
