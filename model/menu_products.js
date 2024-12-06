@@ -36,7 +36,8 @@ Menu_product.init({
     }
 }, {
     sequelize,
-    modelName: "menu_product",
+    modelName: "Menu_product",
+    tableName: "menu_products",
 });
 
 Menu_list.init({
@@ -55,7 +56,8 @@ Menu_list.init({
     }
 },{
     sequelize,
-    modelName:"menu_list"
+    modelName:"Menu_list",
+    tableName:"menu_list"
 })
 
 export {Menu_product, Menu_list}

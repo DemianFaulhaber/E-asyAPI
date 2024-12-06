@@ -46,7 +46,8 @@ Catalogue_product.init({
     }
 }, {
     sequelize,
-    modelName: "catalogue_product",
+    modelName: "Catalogue_product",
+    tableName: "catalogue_products"
 });
 
 
@@ -66,7 +67,8 @@ Catalogue_list.init({
     }
 },{
     sequelize,
-    modelName:"catalogue_list",
+    modelName:"Catalogue_list",
+    tableName:"catalogue_list",
     freezeTableName:true,
     timestamps:false
 })

@@ -8,6 +8,7 @@ const router = express.Router()
 
 router.use(passport.initialize())
 
+
 router.post('/login', passport.authenticate('local', {session:false}), async(req,res,next) =>{
     try {
         const user = req.user
@@ -20,11 +21,11 @@ router.post('/login', passport.authenticate('local', {session:false}), async(req
         res.header('Access-Control-Allow-Credentials', 'true');
         res.cookie("jwt",token,{
             sameSite: 'None',
-            httpOnly:true,
+            httpOnly:false,
             domain:config.COOKIE_DOMAIN,
             path:"/",
             secure:true,
-            maxAge:3600000
+            maxAge:86400000
         })
         res.json(token)
     } catch (error) {
