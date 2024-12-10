@@ -312,7 +312,7 @@ async function readUserTables(req,res){
                 })
             }
             else{
-                res.status(400).json({
+                res.status(200).json({
                     ok:true,
                     status:404,
                     message:"sin catalogos"
