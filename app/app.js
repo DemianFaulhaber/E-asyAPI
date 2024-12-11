@@ -1,12 +1,15 @@
 import express from "express";
 import morgan from "morgan";
 import routerApi from "../routes/index.js";
-import nodemailer from "nodemailer"
 import cors from 'cors'
-
+import path from 'path'
+import { fileURLToPath } from 'url';
 import cookieParser from "cookie-parser";
 
-const app = express()
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const app = express();
 
 app.get("/", (req,res) => {
     res.send("running on express")
@@ -18,7 +21,7 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))
-app.use('/api/v1',express.static('media'))
+app.use('/api/v1',express.static(path.join(__dirname, 'media')))
 
 const availableCors = ['http://localhost:5173', 'http://localhost:5174','http://localhost:5175', 'https://e-asy.com.ar', 'https://catalogue.e-asy.com.ar']
 
