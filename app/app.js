@@ -18,9 +18,9 @@ app.get("/", (req,res) => {
 import "../utils/auth/index.mjs"
 
 app.use(morgan('dev'))
-app.use(express.json())
+app.use(express.json({limit:'10mb'}))
 app.use(cookieParser())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({limit:'10mb',extended: true}))
 app.use('/api/v1',express.static('media'))
 
 const availableCors = ['http://localhost:5173', 'http://localhost:5174','http://localhost:5175', 'https://e-asy.com.ar', 'https://catalogue.e-asy.com.ar']
