@@ -1,10 +1,9 @@
 import express from "express"
-import { exportExcellAll, exportExcellCategory } from "../tasks/excellFilesManagment.js";
+import { exportExcellAll, exportExcellCategory, importExcel } from "../tasks/excellFilesManagment.js";
 import { checkRole } from "../middleware/auth.handler.js";
 import passport from "passport";
 import * as product_management from "../tasks/product_management.js"
-import { galleryCreation } from "../middleware/file.handler.js";
-
+import { galleryCreation, tfiles } from "../middleware/file.handler.js";
 
 const router = express.Router()
 
@@ -31,5 +30,12 @@ router.post("/delete", passport.authenticate('jwt', {session:false}), checkRole(
 router.get("/exp", exportExcellAll);
 
 router.post("/catExp", exportExcellCategory)
+
+router.post("/importExcel", tfiles.single("calculo"), (req,res) => {
+    console.log(req.file)
+    importExcel(req,res)
+} )
+
+// router.post("/importExcel", importExcel)
 
 export default router;

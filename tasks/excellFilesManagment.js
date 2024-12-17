@@ -1,7 +1,8 @@
 import * as XLSX from "xlsx"
 import { Menu_product } from "../model/menu_products.js";
+import {create, update} from "../tasks/product_management.js"
 import { Catalogue_product } from "../model/catalogue.js";
-
+import * as fs from 'fs';
 
 async function exportExcellAll(req, res){
     const table = req.body.table
@@ -113,8 +114,35 @@ async function exportExcellCategory(req,res){
     }
 }
 
-function importExcellCategory(a,b){
-    return a+b;
+async function importExcel(req, res){
+    console.log(req.file)
+    console.log(req.body)
+    try {
+        if(!req.file){
+            return res.status(400).json({message:"Any file has been upload"});
+        }        
+
+        const workbook = XLSX.readFile(req.file.path)
+        const sheetName = workbook.SheetNames[0];
+        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName])
+
+        const results = [];
+
+        for (const row of data){
+            results.push(row);
+            console.log(row);
+        }
+
+        res.json({
+            message:"the file has been successfully read",
+            results
+        })
+
+    } catch (error) {
+        console.log("error reading file");
+        return res.status(500).json({message:"error reading file"})
+    }
+
 }
 
-export {exportExcellAll, exportExcellCategory, importExcellCategory}
+export {exportExcellAll, exportExcellCategory, importExcel}

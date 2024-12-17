@@ -17,7 +17,7 @@ app.get("/", (req,res) => {
 
 import "../utils/auth/index.mjs"
 
-app.use(morgan('dev'))
+// app.use(morgan('dev'))
 app.use(express.json({limit:'10mb'}))
 app.use(cookieParser())
 app.use(express.urlencoded({limit:'10mb',extended: true}))

@@ -2,9 +2,6 @@ import fs from "node:fs"
 import multer from "multer";
 
 const galleryCreation = (req, res, next) => {
-    
-
-
     const storage = multer.diskStorage({
         destination:function(req, file,cb){
             const body = req.body
@@ -34,7 +31,6 @@ const galleryCreation = (req, res, next) => {
         }).single('file');
 
     upload(req, res,(err) => {
-        console.log(req.body)
         if (err){
             return "error al subir el archivo"
         }
@@ -42,13 +38,11 @@ const galleryCreation = (req, res, next) => {
             next()
         }
         else{
+            console.log("archivo subido exitosamente")
             next()
         }
     })
 }
-
-
-
 
 const storage = multer.diskStorage({
     destination:function(req,file,cb){
@@ -76,5 +70,9 @@ const storage = multer.diskStorage({
 
 const media = multer({storage:storage})
 
+const tfiles = multer({
+    dest:"./tfiles/",
+    limits: { fileSize: 10 * 1024 * 1024 }
+})
 
-export {media, galleryCreation}
+export {galleryCreation, tfiles}
