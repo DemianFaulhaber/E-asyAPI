@@ -3,10 +3,9 @@ import { exportExcellAll, exportExcellCategory, importExcel } from "../tasks/exc
 import { checkRole } from "../middleware/auth.handler.js";
 import passport from "passport";
 import * as product_management from "../tasks/product_management.js"
-import { galleryCreation, tfiles } from "../middleware/file.handler.js";
+import { galleryCreation, tfiles, media } from "../middleware/file.handler.js";
 
 const router = express.Router()
-
 
 //Eliminar de producción (inutil)
 router.post("/fakeCreate", passport.authenticate('jwt', {session:false}), checkRole('admin', 'customer'), product_management.fakeCreate);
@@ -31,11 +30,6 @@ router.get("/exp", exportExcellAll);
 
 router.post("/catExp", exportExcellCategory)
 
-router.post("/importExcel", tfiles.single("calculo"), (req,res) => {
-    console.log(req.file)
-    importExcel(req,res)
-} )
-
-// router.post("/importExcel", importExcel)
+router.post("/importExcel", tfiles, importExcel)
 
 export default router;

@@ -70,9 +70,36 @@ const storage = multer.diskStorage({
 
 const media = multer({storage:storage})
 
-const tfiles = multer({
-    dest:"./tfiles/",
-    limits: { fileSize: 10 * 1024 * 1024 }
-})
+const tfiles = (req,res,next) => {
+    const storage = multer.diskStorage({
+        destination:function(req,file,cb){
+            const path = './tfile';
+            if(!fs.existsSync(path)){
+                fs.mkdirSync(path,{recursive:true})
+            }
+            cb(null, path);
+        },
+        filename: function (req, file, cb) {
+            // Guardar con el nombre original del archivo
+            cb(null, "data.xlsx");
+        },
+    });
+    const upload = multer({
+        storage,
+        limits : {fileSize: 10 * 1024 *1024}
+    }).single('file');
+    upload(req, res,(err) => {
+        if (err){
+            return "error al subir el archivo"
+        }
+        else if(!req.file){
+            next()
+        }
+        else{
+            console.log("archivo subido exitosamente")
+            next()
+        }
+    })
+}
 
-export {galleryCreation, tfiles}
+export {galleryCreation, tfiles, media}

@@ -1,8 +1,11 @@
 import * as XLSX from "xlsx"
 import { Menu_product } from "../model/menu_products.js";
 import {create, update} from "../tasks/product_management.js"
+import path from "path";
 import { Catalogue_product } from "../model/catalogue.js";
 import * as fs from 'fs';
+
+XLSX.set_fs(fs)
 
 async function exportExcellAll(req, res){
     const table = req.body.table
@@ -115,31 +118,50 @@ async function exportExcellCategory(req,res){
 }
 
 async function importExcel(req, res){
-    console.log(req.file)
-    console.log(req.body)
     try {
         if(!req.file){
-            return res.status(400).json({message:"Any file has been upload"});
+            return res.status(400).json({message:"Not any file has been upload"});
         }        
+        
 
-        const workbook = XLSX.readFile(req.file.path)
+        const filePath = path.resolve(req.file.path);
+        console.log(filePath);
+        if (fs.existsSync(filePath)) {
+            console.log("File exists:", filePath);
+        } else {
+            console.log("File not found:", filePath);
+        }
+        
+        const workbook = XLSX.readFile(filePath);
         const sheetName = workbook.SheetNames[0];
-        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName])
+        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
         const results = [];
 
+
         for (const row of data){
             results.push(row);
-            console.log(row);
         }
 
-        res.json({
+        
+        const products = await Promise.all(results.map(async (e) => {
+            const createdProduct = await Catalogue_product.create({
+                product_name: e.name,
+                product_desc: e.desc,
+                product_price: e.price,
+                product_category: e.cat,
+                catalogue_id: e.catalogue_id,
+            });
+            return createdProduct; // Return the created product for Promise.all
+        }));
+
+        res.status(201).json({
             message:"the file has been successfully read",
-            results
+            products
         })
 
     } catch (error) {
-        console.log("error reading file");
+        console.error("error reading file", error);
         return res.status(500).json({message:"error reading file"})
     }
 
